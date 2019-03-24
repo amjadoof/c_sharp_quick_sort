@@ -79,12 +79,12 @@ namespace File_QuickSort
         {
             string[] keys = fileContent.Keys.ToArray();
             QSort(keys, 0, keys.Length - 1, asc);
-            PrintArray(keys);
+            // PrintArray(keys);
             OrderedDictionary v = new OrderedDictionary(fileContent.Count);
-            //foreach(var k in keys)
-            //{
-            //    v.Add(k, fileContent[k]);
-            //}
+            foreach (var k in keys)
+            {
+                v.Add(k, fileContent[k]);
+            }
             return v;
         }
 
@@ -100,7 +100,16 @@ namespace File_QuickSort
         private static Dictionary<string, int> ReadCSV(string path, char SeperationChar, bool WithHeader = false)
         {
             Dictionary<string, int> data = new Dictionary<string, int>();
-            StreamReader sReader = new StreamReader(path);
+            StreamReader sReader;
+            try
+            {
+                sReader = new StreamReader(path);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("File  ot found");
+                throw;
+            }
             if (WithHeader)
             {
                 sReader.ReadLine();
